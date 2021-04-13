@@ -13,7 +13,7 @@
                     echo "<h4>Felicidades, has acertado</h4>";
                     echo "<p>Número de intentos " , $intento , "</p>";
                }else{
-                   $intento = $_SESSION["count"];
+                   $intento = $_SESSION["adivinar"];
                    $num = $_SESSION["randNum"];
                    echo "<h4>Tu número era ", $num , "</h4>";
                    echo "<p>Número de intentos " , $intento , "</p>";
@@ -27,6 +27,7 @@
         
         <?php
         if(isset($_GET["submit"])){
+            session_destroy();
             header('Location: index.php');
         }
         ?>

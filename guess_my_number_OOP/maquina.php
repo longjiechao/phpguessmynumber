@@ -17,30 +17,50 @@
             }else{
                 echo "<h1>Modo: Máquina acierta, Difícil </h1>";
             }
+            
+            $game->genRand();
+            echo "Es tú número ", $game->getRand(), "? <br>";
         ?>
         <div id="play">
-            <h3>Inserta tu número para que acierte</h3>
-            <form method="get">
-                <?php
-                    if($game->getDiff() == "facil"){
-                        echo "<input name=\"num\" type=\"number\" min=\"1\" max=\"10\"/ required>";
-                    }else if($game->getDiff() == "normal"){
-                        echo "<input name=\"num\" type=\"number\" min=\"1\" max=\"50\"/ required>";
-                    }else{
-                        echo "<input name=\"num\" type=\"number\" min=\"1\" max=\"100\"/ required>";
-                    }
-                ?>
-                <button type="submit" name="submit">Elegir número</button>
+            <h3¿Era mi número acertada?</h3>
+            <form method="post">
+                <button type="submit" name="peque">És más pequeño</button>
+                <button type="submit" name="corr">És el número correcto</button>
+                <button type="submit" name="grand">És más grande</button>
+                
             </form>
         </div>
+        
+        
         <?php
-            if(isset($_GET["submit"])){
-                if(isset($_GET["num"])){
-                    $game->setNum($_GET["num"]);
-                    $game->setResultadoFinal();
-                    $_SESSION["game"] = serialize($game);
-                    //header('Location: stats.php');
+            echo "min: " , $game->getMin() , "<br>max: " , $game->getMax(), "<br>";
+            if(isset($_POST["peque"])){
+                $game->incrementarCount();
+                $game->setMax($game->getRand()-1);
+
+                echo "Min:". $min. "<br> Max: ". $max;
+                if($min == $max || $min > $max){
+                    $_SESSION["randNum"] = $min;
+                    header("Location: stats.php");
+                }else{
+                    header("Location: maquina2.php");
                 }
+
+            }else if (isset($_POST["grand"])){
+                $game->incrementarCount();
+                $game->setMin($game->getRand()+1);
+
+                echo "Min:". $min. "<br> Max: ". $max;
+                if($min == $max || $min > $max){
+                    $_SESSION["randNum"] = $max;
+                    //header("Location: stats.php");
+                }else{
+                    //header("Location: maquina2.php");
+                }
+            }else if(isset($_POST["corr"])){
+                $game->incrementarCount();
+                $game->setResultadoFinal();
+                header("Location: stats.php");
             }
         ?>
     </body>

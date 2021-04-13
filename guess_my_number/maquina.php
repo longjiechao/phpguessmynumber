@@ -62,9 +62,9 @@
             </form>
         </div>
         <?php
-        echo "ey <br>";
         echo "min: " , $min , "<br>max: " , $max, "<br>";
             if(isset($_POST["peque"])){
+                $_SESSION["adivinar"]++;
                 $max = $_SESSION["random"];
                 $max--;
                 
@@ -75,8 +75,16 @@
                 $_SESSION["min"] = $min;
                 $_SESSION["max"] = $max;
                 
-                header("Location: maquina2.php");
+                echo "Min:". $min. "<br> Max: ". $max;
+                if($min == $max || $min > $max){
+                    $_SESSION["randNum"] = $min;
+                    header("Location: stats.php");
+                }else{
+                    header("Location: maquina2.php");
+                }
+                
             }else if (isset($_POST["grand"])){
+                $_SESSION["adivinar"]++;
                 $min = $_SESSION["random"];
                 $min++;
                 
@@ -87,48 +95,18 @@
                 $_SESSION["min"] = $min;
                 $_SESSION["max"] = $max;
                 
-                header("Location: maquina2.php");
+                echo "Min:". $min. "<br> Max: ". $max;
+                if($min == $max || $min > $max){
+                    $_SESSION["randNum"] = $max;
+                    header("Location: stats.php");
+                }else{
+                    header("Location: maquina2.php");
+                }
             }else if(isset($_POST["corr"])){
-                session_destroy();
+                $_SESSION["adivinar"]++;
+                $_SESSION["randNum"] = $_SESSION["random"];
+                header("Location: stats.php");
             }
-            
-//            if(isset($_GET["submit"])){
-//                $num = $_GET["num"];
-//                
-//                if(isset($_GET["num"])){
-//                    $array = range($min, $max);
-//                    $rand = rand($min-1, count($array)-1);
-//                    $randNum = $array[$rand];
-//                    $loop = true;
-//                    $count = 0;
-//                    echo print_r($array), " Original <br>";
-//                    while($loop){
-//                        $count++;
-//                        if($num > $randNum){
-//                            $array = array_slice($array,$rand+1, count($array));
-//                        }else if($num < $randNum){
-//                            $array = array_slice($array,0,$rand);
-//                        }else{
-//                            echo"Tu numero es " , $randNum, "<br>";
-//                            $_SESSION["count"] = $count;
-//                            $_SESSION["randNum"] = $randNum;
-//                            $loop = false;
-//                        }
-//                        echo "Random Pos: ", $rand, " <br>";
-//                        echo "Random Number: ", $randNum, " <br>";
-//                        echo print_r($array), " <br>";
-//                        $rand = rand($min-1, count($array)-1);
-//                        $randNum = $array[$rand];
-//                        
-//                    }
-//                    echo "intentos ", $count, "<br>";
-//                    echo "Num: ", $num, "<br>";
-//                    echo "Random: ", $rand, "<br>";
-//                }
-//                header('Location: stats.php');
-//                ob_end_flush();
-//                exit();
-//            }
         ?>
     </body>
 </html>

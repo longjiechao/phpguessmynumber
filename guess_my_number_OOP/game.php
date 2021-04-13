@@ -28,8 +28,14 @@
         public function getMin(){
             return $this->minN;
         }
+        public function setMin($min){
+            $this->minN = $min;
+        }
         public function getMax(){
             return $this->maxN;
+        }
+        public function setMax($max){
+            $this->maxN = $max;
         }
         abstract public function generarNumero();
         abstract public function setType();
@@ -69,12 +75,27 @@
     }
     
     class GameMaquina extends Game{
+        private $rand = -1;
         private $num = 0;
         private $resultado = -1;
 
         public function __construct($dificultad){
             parent::__construct($dificultad);
             $this->setType();
+        }
+        
+        public function setRand($rand){
+            $this->rand = $rand;
+        }
+        public function getRand(){
+            return $this->rand;
+        }
+        public function genRand(){
+            if($this->rand == -1){
+                $this->rand = $this->maxN/2;
+            }else{
+                $this->rand = rand($this->minN, $this->maxN);
+            }
         }
         public function setNum($num){
             $this->num = $num; 
@@ -84,28 +105,10 @@
         }
         
         public function setResultadoFinal(){
-            $this->resultado = $this->adivinar();
+            $this->resultado = $this->rand;
         }
         public function getResultado(){
             return $this->resultado;
-        }
-        public function adivinar(){
-            $loop = true;
-            echo "MAX: ", $this->maxN, " MIN: ", $this->minN, "<br>";
-            while($loop){
-                $this->incrementarCount();
-                $this->randNum = $this->generarNumero();
-                if($this->num > $this->randNum){
-                    $this->minN = $this->randNum+1;
-                }else if($this->num < $this->randNum){
-                    $this->maxN = $this->randNum-1;
-                }else{
-                    $this->loop = false;
-                    return $this->randNum;
-                }
-                echo "RAND: ", $this->randNum, "<br>";
-                echo "MAX: ", $this->maxN, " MIN: ", $this->minN, "<br>";
-            }
         }
         public function generarNumero(){
             return rand($this->minN, $this->maxN);
@@ -115,6 +118,13 @@
         }
         public function getType(){
             return $this->type;
+        }
+        public function isfinalCheck(){
+            if($this->minN == $this->maxN || $this->minN > $this->maxN){
+                return true;
+            }else{
+                return false;
+            }
         }
     }
 ?> 
