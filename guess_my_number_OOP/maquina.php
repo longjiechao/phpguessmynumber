@@ -38,9 +38,8 @@
                 $game->incrementarCount();
                 $game->setMax($game->getRand()-1);
 
-                echo "Min:". $min. "<br> Max: ". $max;
-                if($min == $max || $min > $max){
-                    $_SESSION["randNum"] = $min;
+                echo "Min:". $game->getMin(). "<br> Max: ". $game->getMax();
+                if($game->getMin() == $game->getMax() || $game->getMin() > $game->getMax()){
                     header("Location: stats.php");
                 }else{
                     header("Location: maquina2.php");
@@ -50,12 +49,11 @@
                 $game->incrementarCount();
                 $game->setMin($game->getRand()+1);
 
-                echo "Min:". $min. "<br> Max: ". $max;
-                if($min == $max || $min > $max){
-                    $_SESSION["randNum"] = $max;
-                    //header("Location: stats.php");
+                echo "Min:". $game->getMin(). "<br> Max: ". $game->getMax();
+                if($game->getMin() == $game->getMax() || $game->getMin() > $game->getMax()){
+                    header("Location: stats.php");
                 }else{
-                    //header("Location: maquina2.php");
+                    header("Location: maquina2.php");
                 }
             }else if(isset($_POST["corr"])){
                 $game->incrementarCount();
