@@ -17,8 +17,7 @@
             }else{
                 echo "<h1>Modo: Máquina acierta, Difícil </h1>";
             }
-            
-            $game->genRand();
+
             echo "Es tú número ", $game->getRand(), "? <br>";
         ?>
         <div id="play">
@@ -39,25 +38,38 @@
                 $game->setMax($game->getRand()-1);
 
                 echo "Min:". $game->getMin(). "<br> Max: ". $game->getMax();
-                if($game->getMin() == $game->getMax() || $game->getMin() > $game->getMax()){
+                $game->genRand();
+            
+                if($game->isfinalCheck()){
+                    $game->setResultadoFinal($game->getMin());
+                    $_SESSION["game"] = serialize($game);
                     header("Location: stats.php");
                 }else{
+                    $_SESSION["game"] = serialize($game);
                     header("Location: maquina2.php");
                 }
 
-            }else if (isset($_POST["grand"])){
+            }
+            if (isset($_POST["grand"])){
                 $game->incrementarCount();
                 $game->setMin($game->getRand()+1);
 
                 echo "Min:". $game->getMin(). "<br> Max: ". $game->getMax();
-                if($game->getMin() == $game->getMax() || $game->getMin() > $game->getMax()){
+                $game->genRand();
+            
+                if($game->isfinalCheck()){
+                    $game->setResultadoFinal($game->getMin());
+                    $_SESSION["game"] = serialize($game);
                     header("Location: stats.php");
                 }else{
+                    $_SESSION["game"] = serialize($game);
                     header("Location: maquina2.php");
                 }
-            }else if(isset($_POST["corr"])){
+            }
+            if(isset($_POST["corr"])){
                 $game->incrementarCount();
-                $game->setResultadoFinal();
+                $game->setResultadoFinal($game->getRand());
+                $_SESSION["game"] = serialize($game);
                 header("Location: stats.php");
             }
         ?>

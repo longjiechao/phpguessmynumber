@@ -75,13 +75,14 @@
     }
     
     class GameMaquina extends Game{
-        private $rand = -1;
+        private $rand;
         private $num = 0;
         private $resultado = -1;
 
         public function __construct($dificultad){
             parent::__construct($dificultad);
             $this->setType();
+            $this->rand = $this->maxN/2;
         }
         
         public function setRand($rand){
@@ -91,11 +92,7 @@
             return $this->rand;
         }
         public function genRand(){
-            if($this->rand == -1){
-                $this->rand = $this->maxN/2;
-            }else{
-                $this->rand = rand($this->minN, $this->maxN);
-            }
+            $this->rand = rand($this->minN, $this->maxN);
         }
         public function setNum($num){
             $this->num = $num; 
@@ -104,8 +101,8 @@
             return $this->num;
         }
         
-        public function setResultadoFinal(){
-            $this->resultado = $this->rand;
+        public function setResultadoFinal($rand){
+            $this->resultado = $rand;
         }
         public function getResultado(){
             return $this->resultado;
