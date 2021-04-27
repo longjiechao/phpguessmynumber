@@ -1,0 +1,16 @@
+table{
+    margin: auto;
+    width: 100%;
+}
+
+table, tr, td, th{
+    border: 1px solid;
+}
+
+th{
+    background-color: tomato;
+}
+
+tr:nth-child(2n) {
+    background: none repeat scroll 0 0 #edebeb;
+}  

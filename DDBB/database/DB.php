@@ -24,8 +24,10 @@ interface DB {
     
     function selectByModalitat($modalitat);
     
+    public function delete($id);
+    public function update($estadistica);
+    public function findById($id);
+    
     // function delete($id): void;
     // ...
 }
-
-

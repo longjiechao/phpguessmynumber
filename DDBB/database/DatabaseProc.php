@@ -9,12 +9,14 @@ include_once 'DatabaseConnection.php';
  */
 class DatabaseProc extends DatabaseConnection {
 
-    public function __construct($servername, $username, $password) {
+    private $database;
+    public function __construct($servername, $username, $password,$database) {
         parent::__construct($servername, $username, $password);
+        $this->database = $database;
     }
 
     public function connect(): void {
-        $this->connection = mysqli_connect($this->servername, $this->username, $this->password);
+        $this->connection = mysqli_connect($this->servername, $this->username, $this->password, $this->database);
         if (!$this->connection) {
             die("Connection failed: " . mysqli_connect_error());
             $this->connection = null;
@@ -33,7 +35,7 @@ class DatabaseProc extends DatabaseConnection {
     }
 
     public function selectAll() {
-        $sql = "SELECT id, modalitat, nivell, data_partida, intents FROM estadistiques";
+        $sql = "SELECT * FROM estadistiques";
         $result = null;
         if ($this->connection != null) {
             $result = mysqli_query($this->connection, $sql);
@@ -42,7 +44,7 @@ class DatabaseProc extends DatabaseConnection {
     }
 
     public function selectByModalitat($modalitat) {
-        $sql = "SELECT id, modalitat, nivell, data_partida, intents FROM estadistiques WHERE modalitat = '$modalitat'";
+        $sql = "SELECT * FROM estadistiques WHERE modalitat = '$modalitat'";
         $result = null;
         if ($this->connection != null) {
             $result = mysqli_query($this->connection, $sql);

@@ -19,6 +19,9 @@ class DatabasePDO extends DatabaseConnection {
         parent::__construct($servername, $username, $password);
         $this->database = $database;
     }
+    public function __destruct() {
+        $this->connection = null; 
+    }
 
     function connect(): void {
         try {
@@ -45,15 +48,27 @@ class DatabasePDO extends DatabaseConnection {
     }
 
     function selectAll() {
-        $stmt = $this->connection->prepare("SELECT id, modalitat, nivell, data_partida, intents FROM estadistiques");
+        $stmt = $this->connection->prepare("SELECT * FROM estadistiques");
         $stmt->execute();
         // set the resulting array to associative
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         return $stmt;
     }
+    
+    function createStats() {
+        $stmt = $this->connection->query("SELECT * FROM estadistiques");
+        echo "<table>";
+        echo "<th>id</th><th>modalitat</th><th>nivell</th><th>data_partida</th><th>intents</th>";
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            echo "<tr>";
+            echo "<td>".$row["id"]."</td>"."<td>".$row["modalitat"]."</td>"."<td>".$row["nivell"]."</td>"."<td>".$row["data_partida"]."</td>"."<td>".$row["intents"]."</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+    }
 
     function selectByModalitat($modalitat) {
-        $stmt = $this->connection->prepare("SELECT id, modalitat, nivell, data_partida, intents FROM estadistiques WHERE modalitat = :modalitat");
+        $stmt = $this->connection->prepare("SELECT * FROM estadistiques WHERE modalitat = :modalitat");
         $stmt->bindParam(':modalitat', $modalitat);
         $stmt->execute();
         // set the resulting array to associative

@@ -10,13 +10,15 @@ include_once 'DatabaseConnection.php';
  */
 class DatabaseOOP extends DatabaseConnection {
 
-    public function __construct($servername, $username, $password) {
+    private $database;
+    public function __construct($servername, $username, $password, $database) {
         parent::__construct($servername, $username, $password);
+        $this->database = $database;
     }
 
     //put your code here
     public function connect(): void {
-        $this->connection = new mysqli($this->servername, $this->username, $this->password);
+        $this->connection = new mysqli($this->servername, $this->username, $this->password, $this->database);
         // Check connection
         if ($this->connection->connect_error) {
             die("Connection failed: " . $this->connection->connect_error);
@@ -36,7 +38,7 @@ class DatabaseOOP extends DatabaseConnection {
     }
 
     public function selectAll() {
-        $sql = "SELECT id, modalitat, nivell, data_partida, intents FROM estadistiques";
+        $sql = "SELECT * FROM estadistiques";
         $result = null;
         if ($this->connection != null) {
             $result = $this->connection->query($sql, MYSQLI_USE_RESULT);
@@ -45,7 +47,7 @@ class DatabaseOOP extends DatabaseConnection {
     }
 
     public function selectByModalitat($modalitat) {
-        $sql = "SELECT id, modalitat, nivell, data_partida, intents FROM estadistiques WHERE modalitat = '$modalitat'";
+        $sql = "SELECT * FROM estadistiques WHERE modalitat = '$modalitat'";
         $result = null;
         if ($this->connection != null) {
             $result = $this->connection->query($sql, MYSQLI_USE_RESULT);

@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Guess my Number</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -24,29 +24,24 @@
                 <br>
                 <input type="submit" name="submit">
             </form>
+            <form action="global_stats.php">
+                <input type="submit" value="Mostrar estadisticas globales" />
+            </form>
+
+            
         </div>
         <?php
-        session_start();
+            session_start();
+            include "game.php";
             if(isset($_GET["submit"])){
-                $_SESSION["dif"] = $_GET["dif"];
+                $dif = $_GET["dif"];
                 if($_GET["modo"] == "usuario"){
-                if($_GET["dif"] == "facil"){
-                        $min = 1;
-                        $max = 10;
-                    }else if($_GET["dif"] == "normal"){
-                        $min = 1;
-                        $max = 50;
-                    }else{
-                        $min = 1;
-                        $max = 100;
-                    }
-                    $_SESSION["num"] = rand($min, $max);
-                    $_SESSION["intento"] = 0; 
-                    $_SESSION["modo"] = $_GET["modo"]; 
+                    $game = new GameUsuario($dif);
+                    $_SESSION["game"] = serialize($game);
                     header('Location: usuario.php');
                 }else if($_GET["modo"] == "maquina"){
-                    $_SESSION["adivinar"] = 0;
-                    $_SESSION["modo"] = $_GET["modo"]; 
+                    $game = new GameMaquina($dif);
+                    $_SESSION["game"] = serialize($game);
                     header('Location: maquina.php');
                 }
             }
