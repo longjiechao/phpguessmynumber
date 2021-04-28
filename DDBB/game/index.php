@@ -46,5 +46,14 @@
                 }
             }
         ?>
+        <iframe src="./credits.txt"></iframe> 
+        <input id="credits" type="button" value="Credits" />
+        <script>
+            var input = document.getElementById("credits");
+            input.addEventListener("click", popUp);
+            function popUp(){
+                floatingWindow = window.open("./credits.txt","","height=200,width=400,scrollbars=no");
+            }
+        </script>
     </body>
 </html>

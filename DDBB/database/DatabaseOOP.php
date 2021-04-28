@@ -45,6 +45,19 @@ class DatabaseOOP extends DatabaseConnection {
         }
         return $result;
     }
+    
+    function createStats($select) {
+        $stmt = $select;
+        //$this->connection->query("SELECT * FROM estadistiques");
+        echo "<table>";
+        echo "<th>id</th><th>modalitat</th><th>nivell</th><th>data_partida</th><th>intents</th>";
+        while($row = $stmt->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td>".$row["id"]."</td>"."<td>".$row["modalitat"]."</td>"."<td>".$row["nivell"]."</td>"."<td>".$row["data_partida"]."</td>"."<td>".$row["intents"]."</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+    }
 
     public function selectByModalitat($modalitat) {
         $sql = "SELECT * FROM estadistiques WHERE modalitat = '$modalitat'";
@@ -53,6 +66,34 @@ class DatabaseOOP extends DatabaseConnection {
             $result = $this->connection->query($sql, MYSQLI_USE_RESULT);
         }
         return $result;
+    }
+
+    public function delete($id) {
+        $sql = "DELETE FROM estadistiques WHERE id = $id";
+        
+        if ($this->connection->query($sql) === TRUE) {
+            echo "Record deleted successfully";
+        } else {
+            echo "Error deleting record: " . $this->connection->error;
+        }
+    }
+
+    public function findById($id) {
+        $sql = "SELECT * FROM estadistiques WHERE id = $id";
+        $result = null;
+        if ($this->connection != null) {
+            $result = $this->connection->query($sql, MYSQLI_USE_RESULT);
+        }
+        return $result;
+    }
+
+    public function update($id, $modalitat, $nivell, $intents) {
+        $sql = "UPDATE estadistiques SET modalitat='$modalitat', nivell='$nivell', intents='$intents' WHERE id=$id";
+        if ($this->connection->query($sql) === TRUE) {
+          echo "Record updated successfully";
+        } else {
+          echo "Error updating record: " . $this->connection->error;
+        }
     }
 
 }

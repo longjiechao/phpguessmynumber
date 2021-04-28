@@ -55,8 +55,9 @@ class DatabasePDO extends DatabaseConnection {
         return $stmt;
     }
     
-    function createStats() {
-        $stmt = $this->connection->query("SELECT * FROM estadistiques");
+    function createStats($select) {
+        $stmt = $select;
+        //$this->connection->query("SELECT * FROM estadistiques");
         echo "<table>";
         echo "<th>id</th><th>modalitat</th><th>nivell</th><th>data_partida</th><th>intents</th>";
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -68,33 +69,40 @@ class DatabasePDO extends DatabaseConnection {
     }
 
     function selectByModalitat($modalitat) {
-        $stmt = $this->connection->prepare("SELECT * FROM estadistiques WHERE modalitat = :modalitat");
-        $stmt->bindParam(':modalitat', $modalitat);
+        $stmt = $this->connection->prepare("SELECT * FROM estadistiques WHERE modalitat = '$modalitat'");
         $stmt->execute();
         // set the resulting array to associative
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         return $stmt;
     }
-    
-}
 
-/*
-    function createTable($table_sql) {
-        try {
-            $this->connection->exec($table_sql);
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
-    }
-     */
-
-    /*
-    function insert($modalitat, $nivell, $intents) {
-        $sql = "INSERT INTO estadistiques (modalitat, nivell, intents) VALUES ('$modalitat', $nivell, $intents)";
-        try {
+    public function delete($id) {
+        try{
+            $sql = "DELETE FROM estadistiques WHERE id = $id";
             $this->connection->exec($sql);
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            echo $sql . "<br>" . $e->getMessage();
         }
+        
     }
-     */
+
+    public function findById($id) {
+        $stmt = $this->connection->prepare("SELECT * FROM estadistiques WHERE id = $id");
+        $stmt->execute();
+        // set the resulting array to associative
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        return $stmt;
+    }
+
+    public function update($id, $modalitat, $nivell, $intents) {
+        try{
+            $sql = "UPDATE estadistiques SET modalitat='$modalitat', nivell='$nivell', intents='$intents' WHERE id=$id";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute();
+                echo $stmt->rowCount() . " records UPDATED successfully";
+          } catch(PDOException $e) {
+                echo $sql . "<br>" . $e->getMessage();
+          }
+      }
+
+}

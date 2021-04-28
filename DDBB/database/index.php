@@ -18,9 +18,9 @@ and open the template in the editor.
     </head>
     <body onload="showEstadistiques('Totes')">
         <?php
-        include_once 'classes/Config.php';
-        include_once 'classes/DatabasePDO.php';
-        $config = new Config("xml/config.xml");
+        //include_once 'classes/Config.php';
+        include_once 'DatabasePDO.php';
+        //$config = new Config("xml/config.xml");
         $db = new DatabasePDO("localhost", "root", "admin", "m07uf3");
         $db->connect();
         $result = $db->selectDistinctModalitats();
