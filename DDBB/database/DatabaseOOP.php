@@ -27,13 +27,11 @@ class DatabaseOOP extends DatabaseConnection {
     }
 
     public function insert($modalitat, $nivell, $intents): int {
-        $sql = "INSERT INTO estdistiques (modalitat, nivell, intents) VALUES ('$modalitat', $nivell, $intents)";
-        if ($this->connection != null) {
-            if ($this->connection->query($sql) === TRUE) {
-                return $this->connection->insert_id;
-            } else {
-                return -1;
-            }
+        $sql = "INSERT INTO estadistiques (modalitat, nivell, intents) VALUES ('$modalitat', '$nivell', $intents);";
+        if ($this->connection->query($sql) === TRUE) {
+            echo "New record created successfully";
+        } else {
+            echo "Error: " . $sql . "<br>" . $this->connection->error;
         }
     }
 

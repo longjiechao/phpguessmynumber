@@ -9,7 +9,6 @@
         <?php
             session_start();
             include "..\database\conexion.php";
-            $db->connect();
         ?>
         <form action="index.php">
             <input type="submit" value="Volver"/>
@@ -46,9 +45,10 @@
                 <option value="normal">Normal</option>
                 <option value="dificil">Dificil</option>
             </select><br>
-            Intentos<input name="intentosAdd"/><br>
+            Intentos<input type="number" name="intentosAdd"/><br>
             <button name="add">Añadir</button>
         </form><br>
+        
         <form method="get" action="">
             <p>Borrar</p>
             ID<input name="idDelete"/>
@@ -67,7 +67,7 @@
                 <option value="normal">Normal</option>
                 <option value="dificil">Dificil</option>
             </select><br>
-            Intentos<input name="intentosUpdate"/><br>
+            Intentos<input type="number" name="intentosUpdate"/><br>
             <button name="update">Actualizar</button>
         </form><br>
         

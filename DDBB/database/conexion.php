@@ -7,6 +7,7 @@
 //   $db->connect();
    include "DatabasePDO.php";
    $db = new DatabasePDO("localhost", "root", "", "m07uf3");
+   $db->connect();
 
 
 ?>
